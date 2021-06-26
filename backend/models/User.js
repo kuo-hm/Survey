@@ -4,23 +4,26 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
-  username: {
+  fullName: {
     type: String,
     required: [true, "Please provide username"],
   },
   cin: {
     type: String,
     required: [true, "Please provide cin"],
-    
   },
-  faculty: {
+  phone: {
     type: String,
-    required: [true, "Please provide faculty"],
+    required: [true, "Please provide phone"],
+  },
+  date: {
+    type: String,
+    required: [true, "Please provide date"],
   },
   email: {
     type: String,
     required: [true, "Please provide email address"],
-   
+
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Please provide a valid email",
@@ -36,12 +39,14 @@ const UserSchema = new mongoose.Schema({
   resetPasswordExpire: Date,
 });
 
-UserSchema.index({
-  cin: 1,
-
-}, {
-  unique: true,
-});
+UserSchema.index(
+  {
+    cin: 1,
+  },
+  {
+    unique: true,
+  }
+);
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

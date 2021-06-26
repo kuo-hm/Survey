@@ -33,17 +33,19 @@ exports.login = async (req, res, next) => {
 };
 //     Register user
 exports.register = async (req, res, next) => {
-  const { username, email, password, cin } = req.body;
+  const { fullName, email, password, cin, date, phone } = req.body;
 
   try {
     const emails = await User.findOne({ email });
     const cins = await User.findOne({ cin });
-    if (!emails && !tests) {
+    if (!emails && !cins) {
       const user = await User.create({
-        username,
+        fullName,
         email,
         password,
         cin,
+        date,
+        phone,
       });
 
       sendToken(user, 200, res);
