@@ -18,6 +18,7 @@ const NavBar = () => {
     <nav className="navMenu">
       <Link to="/">MainPage</Link>
       <Link to="/survey">Survey</Link>
+      <Link to="/graph">Graph</Link>
       {islogged ? (
         <Link
           to="/sign"

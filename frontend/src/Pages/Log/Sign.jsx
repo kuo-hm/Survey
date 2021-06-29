@@ -4,13 +4,6 @@ import { useDispatch } from "react-redux";
 import { isLogged } from "../../Redux/features/logged/loggedSlice"; //incrementAsync
 import { postLogin } from "../../Redux/features/auth/loginSlice";
 import { postRegister } from "../../Redux/features/auth/registerSlice";
-import "react-phone-number-input/style.css";
-// import { DatePickerComponent } from "@syncfusion/ej2-react-calendars";
-// import "@syncfusion/ej2-base/styles/bootstrap.css";
-// import "@syncfusion/ej2-buttons/styles/bootstrap.css";
-// import "@syncfusion/ej2-inputs/styles/bootstrap.css";
-// import "@syncfusion/ej2-popups/styles/bootstrap.css";
-// import "@syncfusion/ej2-react-calendars/styles/bootstrap.css";
 
 const Sign = ({ history }) => {
   const [slide, setSlide] = useState("login");
@@ -43,6 +36,7 @@ const Sign = ({ history }) => {
     } else {
       dispatch(isLogged(true));
       history.push("/survey");
+      setError("");
     }
   };
   //SignUp Handling
@@ -52,6 +46,8 @@ const Sign = ({ history }) => {
     if (password !== repassword) {
       setPassword("");
       setRePassword("");
+      setError("Your Password don't match!!");
+      return;
       //Message Error "Your Password don't match!!",
     }
     const user = {
@@ -64,6 +60,8 @@ const Sign = ({ history }) => {
     };
     await dispatch(postRegister(user));
     if (localStorage.getItem("errorRegister")) {
+      setError(localStorage.getItem("errorRegister"));
+
       //Message Error localStorage.getItem("errorRegister"),
 
       localStorage.removeItem("errorRegister");
@@ -73,6 +71,7 @@ const Sign = ({ history }) => {
       setDate("");
       setRePassword("");
       setSlide("login");
+      setError("");
     }
   };
   return (
@@ -82,7 +81,10 @@ const Sign = ({ history }) => {
           <h2
             className="form-title"
             id="signup"
-            onClick={() => setSlide("signup")}
+            onClick={() => {
+              setSlide("signup");
+              setError("");
+            }}
           >
             <span>or</span>Sign up
           </h2>
@@ -144,7 +146,7 @@ const Sign = ({ history }) => {
               value={date}
             />
           </div>
-          {/* <p style={{ color: "#DC143C" }}>Error</p> */}
+          <p style={{ color: "#DC143C" }}>{error}</p>
           <button className="submit-btn" onClick={registerHandler}>
             Sign up
           </button>
@@ -154,7 +156,10 @@ const Sign = ({ history }) => {
             <h2
               className="form-title"
               id="login"
-              onClick={() => setSlide("login")}
+              onClick={() => {
+                setSlide("login");
+                setError("");
+              }}
             >
               <span>or</span>Log in
             </h2>{" "}

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,MAAM,CAAA;EACF,QAAQ,EAAE,KAAK;EACf,MAAM,EAAE,GAAG;EACX,IAAI,EAAE,GAAG;CACZ;;AACD,AAAA,MAAM,CAAA;EAEF,IAAI,EAAE,GAAG;CACZ",
+    "sources": [
+        "SurveyPage.scss"
+    ],
+    "names": [],
+    "file": "SurveyPage.css"
+}
