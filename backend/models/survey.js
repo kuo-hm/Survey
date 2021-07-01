@@ -23,6 +23,6 @@ const surveySchema = new mongoose.Schema({
   },
 });
 
-const Schema = mongoose.model("Schema", surveySchema);
+const Survey = mongoose.model("Survey", surveySchema);
 
-module.exports = Schema;
+module.exports = Survey;

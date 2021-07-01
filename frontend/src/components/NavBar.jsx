@@ -18,12 +18,15 @@ const NavBar = () => {
     <nav className="navMenu">
       <Link to="/">MainPage</Link>
       <Link to="/survey">Survey</Link>
-      <Link to="/graph">Graph</Link>
+      {localStorage.getItem("type")==="admin"&& <Link to="/graph">Graph</Link>}
+     
       {islogged ? (
         <Link
           to="/sign"
           onClick={() => {
             localStorage.removeItem("authToken");
+            localStorage.removeItem("type");
+
             dispatch(isLogged(false));
           }}
         >

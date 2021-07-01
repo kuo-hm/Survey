@@ -25,7 +25,8 @@ exports.login = async (req, res, next) => {
     if (!isMatch) {
       return next(new ErrorResponse("Invalid pass", 401));
     }
-
+    const adminCheck = await User.findOne({ email }).select("+admin");
+ 
     sendToken(user, 200, res);
   } catch (err) {
     next(err);
@@ -142,5 +143,5 @@ exports.resetPassword = async (req, res, next) => {
 
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
-  res.status(statusCode).json({ sucess: true, token });
+  res.status(statusCode).json({ sucess: true, token,type:user.type });
 };

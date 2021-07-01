@@ -5,12 +5,14 @@ import NavBar from "./components/NavBar.jsx";
 import Sign from "./Pages/Log/Sign.jsx";
 import PrivateRoute from "./routing/PrivateRoute";
 import Graphs from "./Pages/Dashboard/Graphs.jsx";
+import SurveyPost from "./Pages/Surveys/SurveyPost.jsx";
 function App() {
   return (
     <div>
       <NavBar />
       <Route exact path="/" component={Tabs} />
       <Route exact path="/graph" component={Graphs} />
+      <Route exact path="/test" component={SurveyPost} />
       <PrivateRoute exact path="/survey" component={Surey} />
 
       <Route exact path="/sign" component={Sign} />

@@ -19,15 +19,16 @@ html, body {
 .form-structor {
   background-color: #222;
   border-radius: 15px;
-  height: 550px;
-  width: 350px;
+  height: 700px;
+  width: 450px;
+  margin-top: 20%;
   position: relative;
   overflow: hidden;
   -ms-grid-row: 2;
-  -ms-grid-row-span: 3;
+  -ms-grid-row-span: -1;
   -ms-grid-column: 3;
   -ms-grid-column-span: 1;
-  grid-area: 2 / 3 / 5 / 4;
+  grid-area: 2 / 3 / 1 / 4;
 }
 
 .form-structor::after {
@@ -138,6 +139,7 @@ html, body {
   opacity: 1;
   visibility: visible;
   -webkit-transition: all .3s ease;
+  top: 50px;
 }
 
 .form-structor .signup .submit-btn:hover {

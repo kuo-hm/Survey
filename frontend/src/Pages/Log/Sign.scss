@@ -17,11 +17,12 @@ html,body {
 .form-structor {
 	background-color: #222;
 	border-radius: 15px;
-	height: 550px;
-	width: 350px;
+	height: 700px;
+	width: 450px;
+	margin-top:20%;
 	position: relative;
 	overflow: hidden;
-	grid-area: 2 / 3 / 5 / 4;
+	grid-area: 2 / 3 / 1 / 4;
 			&::after {
 		content: '';
 		opacity: .8;
@@ -125,7 +126,7 @@ html,body {
 			opacity: 1;
 			visibility: visible;
 			-webkit-transition: all .3s ease;
-			
+			top:50px;
 			&:hover {
 				transition: all .3s ease;
 				background-color: rgba(0,0,0,0.8);

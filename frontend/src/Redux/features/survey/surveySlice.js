@@ -16,7 +16,7 @@ export const getSurvey = createAsyncThunk(
     };
     try {
       const response = await axios.get("/api/survey/getSurvey", config);
-      return response;
+      return response.data.surveys;
     } catch (error) {
       if (!error.response) {
         throw error;
@@ -44,5 +44,8 @@ const surveySlice = createSlice({
     },
   },
 });
+export const { selectAll: selectAllSurvey } = surveyAdapter.getSelectors(
+  (state) => state.survey
+);
 
 export default surveySlice.reducer;
