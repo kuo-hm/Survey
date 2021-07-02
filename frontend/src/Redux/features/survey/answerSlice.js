@@ -9,9 +9,9 @@ export const answerAdapter = createEntityAdapter();
 
 export const postAnswer = createAsyncThunk(
   "answer/postAnswer",
-  async (survey, { rejectWithValue }) => {
-    const question = survey.question;
-    const answer = survey.answer;
+  async (answers, { rejectWithValue }) => {
+    const question = answers.question;
+    const answer = answers.answer;
 
     localStorage.removeItem("errorAnswer");
 

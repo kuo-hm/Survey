@@ -1,7 +1,35 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, {  useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
+//TODO Fetch and count answers then show it in graphs
 const Graphs = () => {
   const [selected, setselected] = useState("n");
+  const [datas, setDatas] = useState("n");
+
+ const dispatch = useDispatch();
+
+  const surveyData = useSelector((state) => state);
+  useEffect(() => {
+  const fetchAnswer=async() =>{
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+      const { data } = await axios.post("/api/survey/getAnswer",  {question:"tessstasrray"}, config)
+      setDatas(data.surveys)
+  }
+  function count() {
+ 
+
+
+}
+
+count();
+  fetchAnswer()
+  }, []);
   const Niveau = {
     labels: ["Bac", "Bac +2", "Bac +3", "autre"],
     datasets: [
@@ -76,11 +104,7 @@ const Graphs = () => {
     ],
   };
   const [data, setData] = useState(Niveau);
-  useEffect(() => {
-    if (selected === "m") setData(Mention);
-    else if (selected === "f") setData(Filiere);
-    else setData(Niveau);
-  }, [selected]);
+
   const options = {
     scales: {
       yAxes: [
@@ -94,10 +118,14 @@ const Graphs = () => {
   };
   const handleChange = (e) => {
     setselected(e.target.value);
+    if (selected === "m") setData(Mention);
+    else if (selected === "f") setData(Filiere);
+    else setData(Niveau);
   };
 
   return (
     <div style={{ marginTop: "80px" }}>
+      <input type="button" value="Test" onClick={()=>console.log(datas)} />
       <div className="header"></div>
       {selected}
       <select

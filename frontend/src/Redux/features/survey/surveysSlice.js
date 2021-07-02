@@ -10,10 +10,8 @@ export const postSurveys = createAsyncThunk(
   "survey/postSurveys",
   async (survey, { rejectWithValue }) => {
     const question = survey.question;
-    const answer1 = survey.answer1;
-    const answer2 = survey.answer2;
-    const answer3 = survey.answer3;
-    const answer4 = survey.answer4;
+    const answer = survey.answer;
+   
 
     const config = {
       header: {
@@ -23,7 +21,7 @@ export const postSurveys = createAsyncThunk(
     try {
       const response = await axios.post(
         "/api/survey/postSurvey",
-        { question, answer1, answer2, answer3, answer4 },
+        { question, answer},
         config
       );
       return response;
@@ -42,7 +40,7 @@ const surveysSlice = createSlice({
   reducers: {},
   extraReducers: {
     [postSurveys.fulfilled]: (state, action) => {
-      surveysAdapter.addMany(state, action.payload);
+      surveysAdapter.addOne(state, action.payload);
     },
 
     [postSurveys.rejected]: (state, action) => {

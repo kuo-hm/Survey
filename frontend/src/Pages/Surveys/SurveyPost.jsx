@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getSurvey,
-  selectAllSurvey,
+  getSurvey
+ 
 } from "../../Redux/features/survey/surveySlice";
 import { postSurveys } from "../../Redux/features/survey/surveysSlice";
 
@@ -13,26 +12,24 @@ const SurveyPost = () => {
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
   const [answer4, setAnswer4] = useState("");
-  const [data, setData] = useState();
   const dispatch = useDispatch();
 
+  const islogged = useSelector((state) => state.survey.surveys);
   useEffect(() => {
-    const fetchSurvey = async () => {
-      await dispatch(getSurvey());
-      setData(islogged);
-    };
-    fetchSurvey();
+
+       dispatch(getSurvey());
+;
   }, [dispatch]);
-  const islogged = useSelector((state) => state.survey);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const survey = { question, answer1, answer2, answer3, answer4 };
+    const answer=[ answer1, answer2, answer3, answer4 ]
+    const survey = { question,answer};
     await dispatch(postSurveys(survey));
   };
   const handleFetch = async (e) => {
     e.preventDefault();
-    console.log(data);
+    console.log(islogged);
   };
   return (
     <div>

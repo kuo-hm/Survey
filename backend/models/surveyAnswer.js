@@ -6,7 +6,7 @@ const answerSchema = new mongoose.Schema({
     required: [true, "Please provide question"],
   },
   answer: {
-    type: String,
+    type: [String],
     required: [true, "Please provide answer"],
   },
 });

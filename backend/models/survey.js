@@ -5,22 +5,11 @@ const surveySchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide question"],
   },
-  answer1: {
-    type: String,
+  answer: {
+    type: [String],
     required: [true, "Please provide answer"],
   },
-  answer2: {
-    type: String,
-    required: [true, "Please provide answer"],
-  },
-  answer3: {
-    type: String,
-    required: [true, "Please provide answer"],
-  },
-  answer4: {
-    type: String,
-    required: [true, "Please provide answer"],
-  },
+  
 });
 
 const Survey = mongoose.model("Survey", surveySchema);

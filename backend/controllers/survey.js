@@ -3,17 +3,15 @@ const Answer = require("../models/surveyAnswer");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.postSurvey = async (req, res, next) => {
-  const { question, answer1, answer2, answer3, answer4 } = req.body;
+  const { question, answer } = req.body;
 
   try {
     const survey = await Survey.findOne({ question });
     if (!survey) {
       const surveys = await Survey.create({
         question,
-        answer1,
-        answer2,
-        answer3,
-        answer4,
+        answer
+      
       });
       res.status(200).json({ sucess: true, surveys: surveys });
     } else return next(new ErrorResponse("Question already Registerd", 401));
@@ -23,7 +21,12 @@ exports.postSurvey = async (req, res, next) => {
 };
 exports.postAnswer = async (req, res, next) => {
   const { question, answer } = req.body;
+  const survey = await Survey.findOne({ question });
+  if(survey) {
+    Survey.findOneAndUpdate({question:question},{$push :{answer:answer}})
+    res.status(200).json({ sucess: true, surveys: Survey,update:"true" });
 
+  }
   try {
     const answers = await Answer.create({
       question,
