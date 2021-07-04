@@ -9,7 +9,6 @@ const surveySchema = new mongoose.Schema({
     type: [String],
     required: [true, "Please provide answer"],
   },
-  
 });
 
 const Survey = mongoose.model("Survey", surveySchema);

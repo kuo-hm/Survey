@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
@@ -8,27 +8,27 @@ const Graphs = () => {
   const [selected, setselected] = useState("n");
   const [datas, setDatas] = useState("n");
 
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const surveyData = useSelector((state) => state);
   useEffect(() => {
-  const fetchAnswer=async() =>{
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
+    const fetchAnswer = async () => {
+      const config = {
+        header: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/survey/getAnswer",
+        { question: "tessstasrray" },
+        config
+      );
+      setDatas(data.surveys);
     };
-      const { data } = await axios.post("/api/survey/getAnswer",  {question:"tessstasrray"}, config)
-      setDatas(data.surveys)
-  }
-  function count() {
- 
+    function count() {}
 
-
-}
-
-count();
-  fetchAnswer()
+    count();
+    fetchAnswer();
   }, []);
   const Niveau = {
     labels: ["Bac", "Bac +2", "Bac +3", "autre"],
@@ -57,7 +57,7 @@ count();
     datasets: [
       {
         label: "Mention Bac",
-        data: [12, 19, 3, 5, 2, 3],
+        data: [12, 19, 3, 5],
         backgroundColor: [
           "rgba(245, 71, 162, 1)",
           "rgba(54, 162, 235, 0.2)",
@@ -125,7 +125,7 @@ count();
 
   return (
     <div style={{ marginTop: "80px" }}>
-      <input type="button" value="Test" onClick={()=>console.log(datas)} />
+      <input type="button" value="Test" onClick={() => console.log(datas)} />
       <div className="header"></div>
       {selected}
       <select

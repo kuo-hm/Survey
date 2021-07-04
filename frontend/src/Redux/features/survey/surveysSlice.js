@@ -11,7 +11,6 @@ export const postSurveys = createAsyncThunk(
   async (survey, { rejectWithValue }) => {
     const question = survey.question;
     const answer = survey.answer;
-   
 
     const config = {
       header: {
@@ -21,7 +20,7 @@ export const postSurveys = createAsyncThunk(
     try {
       const response = await axios.post(
         "/api/survey/postSurvey",
-        { question, answer},
+        { question, answer },
         config
       );
       return response;
