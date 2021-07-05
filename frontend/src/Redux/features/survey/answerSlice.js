@@ -9,9 +9,9 @@ export const answerAdapter = createEntityAdapter();
 
 export const postAnswer = createAsyncThunk(
   "answer/postAnswer",
-  async (answers, { rejectWithValue }) => {
-    const question = answers.question;
-    const answer = answers.answer;
+  async (Answers, { rejectWithValue }) => {
+    const question = Answers.question;
+    const data = Answers.data;
 
     localStorage.removeItem("errorAnswer");
 
@@ -21,7 +21,7 @@ export const postAnswer = createAsyncThunk(
       },
     };
     try {
-      await axios.post("/api/survey/postAnswer", { question, answer }, config);
+      await axios.post("/api/survey/postAnswer", { question, data }, config);
       localStorage.removeItem("errorSurvey");
     } catch (error) {
       if (!error.response) {

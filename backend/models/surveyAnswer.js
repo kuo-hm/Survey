@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 
 const answerSchema = new mongoose.Schema({
   question: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Survey",
+    type: String,
     required: [true, "Please provide question"],
   },
-  answer: {
-    type: Number,
+  data: {
+    type: [Number],
     required: [true, "Please provide answer"],
   },
 });

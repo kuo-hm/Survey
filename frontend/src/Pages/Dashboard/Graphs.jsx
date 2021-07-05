@@ -3,33 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
+import { getSurvey } from "../../Redux/features/survey/surveySlice";
+import { Button } from "@material-ui/core";
 //TODO Fetch and count answers then show it in graphs
 const Graphs = () => {
   const [selected, setselected] = useState("n");
   const [datas, setDatas] = useState("n");
-
   const dispatch = useDispatch();
 
-  const surveyData = useSelector((state) => state);
+  const surveyData = useSelector((state) => state.survey.surveys);
   useEffect(() => {
-    const fetchAnswer = async () => {
-      const config = {
-        header: {
-          "Content-Type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "/api/survey/getAnswer",
-        { question: "tessstasrray" },
-        config
-      );
-      setDatas(data.surveys);
-    };
-    function count() {}
+    dispatch(getSurvey());
+  }, [dispatch]);
 
-    count();
-    fetchAnswer();
-  }, []);
   const Niveau = {
     labels: ["Bac", "Bac +2", "Bac +3", "autre"],
     datasets: [
@@ -52,58 +38,6 @@ const Graphs = () => {
       },
     ],
   };
-  const Mention = {
-    labels: ["Passable ", "Assez bien", "Bien", "très bien"],
-    datasets: [
-      {
-        label: "Mention Bac",
-        data: [12, 19, 3, 5],
-        backgroundColor: [
-          "rgba(245, 71, 162, 1)",
-          "rgba(54, 162, 235, 0.2)",
-
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-  const Filiere = {
-    labels: [
-      "Ingénierie Financière et Audit",
-      "Ingénierie Informatique et Réseaux",
-      "génie industriel",
-      "génie civil, bâtiments et travaux publics",
-    ],
-    datasets: [
-      {
-        label: "Quel filiére",
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-  const [data, setData] = useState(Niveau);
 
   const options = {
     scales: {
@@ -117,28 +51,23 @@ const Graphs = () => {
     },
   };
   const handleChange = (e) => {
-    setselected(e.target.value);
-    if (selected === "m") setData(Mention);
-    else if (selected === "f") setData(Filiere);
-    else setData(Niveau);
+    console.log(surveyData);
   };
 
   return (
     <div style={{ marginTop: "80px" }}>
-      <input type="button" value="Test" onClick={() => console.log(datas)} />
+      <input type="button" value="Test" onClick={handleChange} />
       <div className="header"></div>
       {selected}
       <select
         onChange={handleChange}
         style={{ marginLeft: "45%", padding: "20px" }}
       >
-        <option value="f">Quel filiére</option>
-        <option selected value="n">
-          Niveau Scolaire
-        </option>
-        <option value="m">Mention Bac</option>
+        {surveyData.map((surveys) => {
+          return <option value={surveys.question}>{surveys.question}</option>;
+        })}
       </select>
-      <Bar data={data} options={options} />
+      <Bar data={Niveau} options={options} />
     </div>
   );
 };

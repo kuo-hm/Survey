@@ -1,9 +1,5 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 
 export const getSurvey = createAsyncThunk(
   "survey/getSurvey",
@@ -27,29 +23,26 @@ export const getSurvey = createAsyncThunk(
 
 const initialState = {
   surveys: [],
-  status: 'idle',
-  error: null
-}
+  status: "idle",
+  error: null,
+};
 const surveySlice = createSlice({
   name: "survey",
   initialState: initialState,
   reducers: {},
   extraReducers: {
     [getSurvey.fulfilled]: (state, action) => {
-      action.payload.forEach(survey => {
-        state.surveys.push({ ...survey })
-    })
+      state.surveys = action.payload;
 
-    state.status = 'success'
-},
-    
+      state.status = "success";
+    },
 
     [getSurvey.rejected]: (state, action) => {
-      state.status = 'error'
+      state.status = "error";
       if (action.payload) {
-          state.error = action.payload.status_message
+        state.error = action.payload.status_message;
       } else {
-          state.error = action.error
+        state.error = action.error;
       }
     },
   },

@@ -19,41 +19,25 @@ exports.postSurvey = async (req, res, next) => {
   }
 };
 exports.postAnswer = async (req, res, next) => {
-  const { question, answer } = req.body;
-  console.log(answer);
-  const answers = await Answer.create({
-    question,
-    answer,
-  });
+  const { question, data } = req.body;
 
-  if (answers) res.status(200).json({ sucess: true, anwser: answers });
-  else res.status(200).json({ sucess: false, error: "something went wrong" });
+  const survey = await Answer.findOne({ question: question });
 
-  //const survey = await Answer.findOne({ question: question });
-  /*
   try {
     if (survey) {
-      await Answer.findOneAndUpdate(
-        { question: question },
-        { $push: { answer } }
-      ).then((response) => {
-        console.log(response);
-        res
-          .status(200)
-          .json({ sucess: true, surveyss: Answer, update: "true" });
-      });
-      // res.status(200).json({ sucess: true, update: survey });
+      await Answer.findOneAndUpdate({ question: question }, { data: data });
+
+      res.status(200).json({ sucess: true, survey: Answer, update: "true" });
     } else {
       const answers = await Answer.create({
         question,
-        answer,
+        data,
       });
       res.status(200).json({ sucess: true, surveys: answers, update: "false" });
-      // res.status(200).json({ sucess: false, update: survey });
     }
   } catch (err) {
     next(err);
-  }*/
+  }
 };
 
 exports.getSurvey = async (req, res, next) => {
@@ -68,32 +52,9 @@ exports.getAnswer = async (req, res, next) => {
   const { question } = req.body;
 
   try {
-    const answer = await Answer.find({ question });
+    const answer = await Answer.findOne({ question });
     res.status(200).json({ sucess: true, surveys: answer });
   } catch (err) {
     next(err);
   }
-};
-
-exports.getAggregation = async (req, res, next) => {
-  var pipeline = [
-    {
-      $group: {
-        _id: "question",
-        count: {
-          $sum: 1.0,
-        },
-      },
-    },
-    {
-      $lookup: {
-        from: "surveys",
-        localField: "_id",
-        foreignField: "_id",
-        as: "_id",
-      },
-    },
-  ];
-  const answ = await Answer.aggregate(pipeline);
-  res.status(200).json({ sucess: true, surveys: answ });
 };

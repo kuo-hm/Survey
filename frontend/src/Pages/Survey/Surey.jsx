@@ -10,59 +10,67 @@ import {
   Radio,
 } from "@material-ui/core";
 import { postAnswer } from "../../Redux/features/survey/answerSlice";
-import { sizing } from "@material-ui/system";
+import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
 
 const Surey = () => {
   const dispatch = useDispatch();
+  const answerData = useSelector((state) => state.getAnswer.answers.surveys);
 
   const surveyData = useSelector((state) => state.survey.surveys);
-  useEffect(() => {
-    dispatch(getSurvey());
-  }, [dispatch]);
   const [count, setCount] = useState(0);
+  useEffect(() => {
+    const survey = async () => {
+      await dispatch(getSurvey());
+    };
+
+    survey();
+  }, [dispatch]);
   const [value, setValue] = useState("answer1");
-  const [answer1, setAnswer1] = useState(0);
-  const [answer2, setAnswer2] = useState(0);
-  const [answer3, setAnswer3] = useState(0);
-  const [answer4, setAnswer4] = useState(0);
   const [answer, setAnswer] = useState("");
   const [done, setDone] = useState(false);
 
-  const handleChange = (event) => {
-    // setAnswerArray(surveyData[count].answers);
-    // if (event.target.value === surveyData[count].answer[0])
-    //   setAnswer1(answer1[0] + 1);
-    // else if (event.target.value === surveyData[count].answer[1])
-    //   setAnswerArray(answerArray[1] + 1);
-    // else if (event.target.value === surveyData[count].answer[2])
-    //   setAnswerArray[2] = setAnswerArray[2] + 1;
-    // else if (event.target.value === surveyData[count].answer[3])
-    //   setAnswerArray[3] = setAnswerArray[3] + 1;
-    // console.log(answerArray);
+  const handleChange = async (event) => {
+    await dispatch(getAnswer(surveyData[count].question));
+
     setValue(event.target.value);
   };
-  const handleNext = async () => {
-    if (surveyData.length === count + 1) {
-      setAnswer((answer) => [
-        ...answer,
-        { question: surveyData[count].question, value: value },
-      ]);
-      const answers = {
+  const handleAnswer = async (idx) => {
+    var intAnswer = [0, 0, 0, 0];
+    if (answerData.data !== null) {
+      var answer = Object.values(answerData.data);
+      answer[idx] += 1;
+      const Answers = { question: surveyData[count].question, data: answer };
+      await console.log(Answers);
+      await dispatch(postAnswer(Answers));
+    } else {
+      intAnswer[idx] += 1;
+      const Answers = {
         question: surveyData[count].question,
-        answers: answerArray,
+        data: intAnswer,
       };
-      await dispatch(postAnswer(answers));
-
+      console.log(Answers);
+      await dispatch(postAnswer(Answers));
+    }
+  };
+  const handleNext = async () => {
+    setAnswer(surveyData[count].question);
+    await dispatch(getAnswer(surveyData[count].question));
+    // console.log(answerData.data);
+    // console.log(surveyData[count].question);
+    console.log(surveyData.length);
+    console.log(count + 1);
+    if (surveyData.length === count + 1) {
       setDone(true);
+      for (let i = 0; i < 4; i++) {
+        if (i === parseInt(value)) handleAnswer(i);
+      }
       return;
-    } else setCount(count + 1);
-    const answers = { question: surveyData[count].question, answer: value };
-    await dispatch(postAnswer(answers));
-
-    setAnswer((answer) => [
-      ...answer,
-      { question: surveyData[count].question, value: value },
-    ]);
+    }
+    for (let i = 0; i < 4; i++) {
+      if (i === parseInt(value)) handleAnswer(i);
+    }
+    if (!done) setCount(count + 1);
+    // await dispatch(postAnswer(answers));
   };
   const handleSubmit = () => {
     console.log(answer);
@@ -79,6 +87,14 @@ const Surey = () => {
       {surveyData.length && !done && (
         <FormControl component="fieldset" size="medium" width="75%">
           <FormLabel component="legend">{surveyData[count].question}</FormLabel>
+          <Button
+            variant="contained"
+            size="medium"
+            onClick={handleAnswer}
+            width="75%"
+          >
+            Test
+          </Button>
           <RadioGroup
             width="75%"
             aria-label="gender"
@@ -87,42 +103,42 @@ const Surey = () => {
           >
             <FormControlLabel
               width="75%"
-              value={surveyData[count].answer[0]}
+              value="0"
               control={<Radio />}
               label={surveyData[count].answer[0]}
             />
             <FormControlLabel
-              value={surveyData[count].answer[1]}
+              value="1"
               control={<Radio />}
               label={surveyData[count].answer[1]}
             />
             <FormControlLabel
-              value={surveyData[count].answer[2]}
+              value="2"
               control={<Radio />}
               label={surveyData[count].answer[2]}
             />
             <FormControlLabel
-              value={surveyData[count].answer[3]}
+              value="3"
               size="medium"
               control={<Radio />}
               label={surveyData[count].answer[3]}
             />
-
-            <Button
-              variant="contained"
-              size="medium"
-              onClick={handleNext}
-              width="75%"
-            >
-              Next
-            </Button>
+            {done ? (
+              <Button variant="contained" onClick={handleSubmit}>
+                Submit
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                size="medium"
+                onClick={handleNext}
+                width="75%"
+              >
+                Next
+              </Button>
+            )}
           </RadioGroup>
         </FormControl>
-      )}
-      {done && (
-        <Button variant="contained" onClick={handleSubmit}>
-          Submit
-        </Button>
       )}
     </div>
   );
