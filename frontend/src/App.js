@@ -11,8 +11,8 @@ function App() {
     <div>
       <NavBar />
       <Route exact path="/" component={Home} />
-      <Route exact path="/graph" component={Graphs} />
-      <Route exact path="/add" component={SurveyPost} />
+      <PrivateRoute exact path="/graph" component={Graphs} />
+      <PrivateRoute exact path="/add" component={SurveyPost} />
       <PrivateRoute exact path="/survey" component={Surey} />
       <Route exact path="/sign" component={Sign} />
     </div>
