@@ -1,5 +1,5 @@
 import Surey from "./Pages/Survey/Surey.jsx";
-import Tabs from "./Pages/Home/Tabs.jsx";
+import Home from "./Pages/Home/Home.jsx";
 import { Route } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
 import Sign from "./Pages/Log/Sign.jsx";
@@ -10,11 +10,10 @@ function App() {
   return (
     <div>
       <NavBar />
-      <Route exact path="/" component={Tabs} />
+      <Route exact path="/" component={Home} />
       <Route exact path="/graph" component={Graphs} />
-      <Route exact path="/test" component={SurveyPost} />
+      <Route exact path="/add" component={SurveyPost} />
       <PrivateRoute exact path="/survey" component={Surey} />
-
       <Route exact path="/sign" component={Sign} />
     </div>
   );

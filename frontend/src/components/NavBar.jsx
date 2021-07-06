@@ -7,6 +7,7 @@ import { isLogged } from "../Redux/features/logged/loggedSlice";
 const NavBar = () => {
   const islogged = useSelector((state) => state.logged.islogged);
   const [logged, setLogged] = useState(islogged);
+  const [scrolled, setScrolled] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
@@ -14,12 +15,26 @@ const NavBar = () => {
       dispatch(isLogged(logged));
     } else setLogged(false);
   }, [logged, dispatch]);
+  const scrolls = () => {
+    console.log(window.scrollY);
+    if (window.scrollY >= 103) {
+      setScrolled(true);
+    } else setScrolled(false);
+
+    console.log(window.scrollY);
+  };
+  window.addEventListener("scroll", scrolls);
   return (
-    <nav className="navMenu">
+    <nav className="navMenu" style={scrolled ? { display: "none" } : {}}>
       <Link to="/">MainPage</Link>
       <Link to="/survey">Survey</Link>
-      {localStorage.getItem("type")==="admin"&& <Link to="/graph">Graph</Link>}
-     
+      {localStorage.getItem("type") === "admin" && (
+        <Link to="/graph">Graph</Link>
+      )}
+      {localStorage.getItem("type") === "admin" && (
+        <Link to="/add">AddSurvey</Link>
+      )}
+
       {islogged ? (
         <Link
           to="/sign"

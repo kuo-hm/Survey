@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSurvey } from "../../Redux/features/survey/surveySlice";
 import { postSurveys } from "../../Redux/features/survey/surveysSlice";
-
+import { TextField, Button } from "@material-ui/core";
+import "./Survey.css";
 const SurveyPost = () => {
   const [question, setQuestion] = useState("");
   const [answer1, setAnswer1] = useState("");
@@ -69,64 +70,59 @@ const SurveyPost = () => {
     return result;
   };
   return (
-    <div>
-      <form
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "20%",
-        }}
-      >
-        {islogged.length}
+    <div className="container__survey">
+      <form style={{}}>
         <br />
-        questions
-        <input
-          type="text"
-          style={{ width: "300px", height: "50px" }}
+
+        <TextField
+          style={{ width: "600px", height: "70px" }}
+          id="question"
+          label="Question"
+          type="search"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         />
-        answer1
-        <input
-          type="text"
-          style={{ width: "300px", height: "50px" }}
+        <TextField
+          style={{ width: "600px", height: "70px" }}
+          id="answer1"
+          label="Answer 1"
+          type="search"
           value={answer1}
           onChange={(e) => setAnswer1(e.target.value)}
         />
-        answer2
-        <input
-          type="text"
-          style={{ width: "300px", height: "50px" }}
+        <TextField
+          style={{ width: "600px", height: "70px" }}
+          id="answer2"
+          label="Answer 2"
+          type="search"
           value={answer2}
           onChange={(e) => setAnswer2(e.target.value)}
         />
-        answer3
-        <input
-          type="text"
-          style={{ width: "300px", height: "50px" }}
+        <TextField
+          style={{ width: "600px", height: "70px" }}
+          id="answer3"
+          label="Answer 3"
+          type="search"
           value={answer3}
           onChange={(e) => setAnswer3(e.target.value)}
         />
-        answer4
-        <input
-          type="text"
-          style={{ width: "300px", height: "50px" }}
+        <TextField
+          style={{ width: "600px", height: "70px" }}
+          id="answer4"
+          label="Answer 4"
+          type="search"
           value={answer4}
           onChange={(e) => setAnswer4(e.target.value)}
         />
-        <input
-          type="button"
-          value="Send"
+        <Button
+          variant="outlined"
           onClick={handleSubmit}
-          style={{ width: "300px", height: "50px" }}
-        />
-        <input
-          type="button"
-          value="Get"
-          onClick={handleFetch}
-          style={{ width: "300px", height: "50px" }}
-        />
+          color="primary"
+          href="#outlined-buttons"
+          style={{ width: "600px", height: "70px", marginTop: "5px" }}
+        >
+          Send
+        </Button>
       </form>
     </div>
   );

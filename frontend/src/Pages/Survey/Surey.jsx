@@ -11,7 +11,71 @@ import {
 } from "@material-ui/core";
 import { postAnswer } from "../../Redux/features/survey/answerSlice";
 import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
+import "./SurveyPage.css";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
+const useStyles = makeStyles({
+  root: {
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  icon: {
+    borderRadius: "50%",
+    width: 16,
+    height: 16,
+    marginRight: "40px",
+
+    boxShadow:
+      "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)",
+    backgroundColor: "#f5f8fa",
+    backgroundImage:
+      "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
+    "$root.Mui-focusVisible &": {
+      outline: "2px auto rgba(19,124,189,.6)",
+      outlineOffset: 2,
+    },
+    "input:hover ~ &": {
+      backgroundColor: "#ebf1f5",
+    },
+    "input:disabled ~ &": {
+      boxShadow: "none",
+      background: "rgba(206,217,224,.5)",
+    },
+  },
+  checkedIcon: {
+    backgroundColor: "#137cbd",
+    backgroundImage:
+      "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
+    "&:before": {
+      display: "block",
+      width: 16,
+      height: 16,
+      backgroundImage: "radial-gradient(#fff,#fff 28%,transparent 32%)",
+      content: '""',
+    },
+    "input:hover ~ &": {
+      backgroundColor: "#106ba3",
+    },
+  },
+});
+
+// Inspired by blueprintjs
+function StyledRadio(props) {
+  const classes = useStyles();
+
+  return (
+    <Radio
+      className={classes.root}
+      disableRipple
+      color="default"
+      checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+      icon={<span className={classes.icon} />}
+      {...props}
+    />
+  );
+}
 const Surey = () => {
   const dispatch = useDispatch();
   const answerData = useSelector((state) => state.getAnswer.answers.surveys);
@@ -77,50 +141,39 @@ const Surey = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "73vh",
-        marginLeft: "50%",
-        marginTop: "20%",
-      }}
-    >
+    <div className="div__survey">
       {surveyData.length && !done && (
-        <FormControl component="fieldset" size="medium" width="75%">
-          <FormLabel component="legend">{surveyData[count].question}</FormLabel>
-          <Button
-            variant="contained"
-            size="medium"
-            onClick={handleAnswer}
-            width="75%"
-          >
-            Test
-          </Button>
+        <FormControl component="fieldset">
+          <p className="question__title">{surveyData[count].question}</p>
+
           <RadioGroup
-            width="75%"
             aria-label="gender"
             name="gender1"
             onChange={handleChange}
           >
             <FormControlLabel
-              width="75%"
+              className="inputs"
               value="0"
-              control={<Radio />}
+              control={<StyledRadio />}
               label={surveyData[count].answer[0]}
             />
             <FormControlLabel
+              className="inputs"
               value="1"
-              control={<Radio />}
+              control={<StyledRadio />}
               label={surveyData[count].answer[1]}
             />
             <FormControlLabel
+              className="inputs"
               value="2"
-              control={<Radio />}
+              control={<StyledRadio />}
               label={surveyData[count].answer[2]}
             />
             <FormControlLabel
+              className="inputs"
               value="3"
               size="medium"
-              control={<Radio />}
+              control={<StyledRadio />}
               label={surveyData[count].answer[3]}
             />
             {done ? (
@@ -128,12 +181,7 @@ const Surey = () => {
                 Submit
               </Button>
             ) : (
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={handleNext}
-                width="75%"
-              >
+              <Button variant="contained" size="medium" onClick={handleNext}>
                 Next
               </Button>
             )}

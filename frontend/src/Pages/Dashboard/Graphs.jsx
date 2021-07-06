@@ -4,12 +4,19 @@ import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
 import { getSurvey } from "../../Redux/features/survey/surveySlice";
-import { Button } from "@material-ui/core";
 //TODO Fetch and count answers then show it in graphs
 const Graphs = () => {
   const [selected, setselected] = useState("n");
-  const [datas, setDatas] = useState("n");
+  const [datas, setDatas] = useState();
   const dispatch = useDispatch();
+  const [data, setData] = useState([0, 0, 0, 0]);
+  const [labels, setLabels] = useState([
+    "loading",
+    "loading",
+    "loading",
+    "loading",
+  ]);
+  const [label, setLabel] = useState("loading");
 
   const surveyData = useSelector((state) => state.survey.surveys);
   useEffect(() => {
@@ -17,11 +24,11 @@ const Graphs = () => {
   }, [dispatch]);
 
   const Niveau = {
-    labels: ["Bac", "Bac +2", "Bac +3", "autre"],
+    labels: labels,
     datasets: [
       {
-        label: "Niveau Scolaire",
-        data: [8, 12, 7, 6],
+        label: label,
+        data: data,
         backgroundColor: [
           "rgba(198, 96, 83, 0.5)",
           "rgba(42, 118, 117, 0.4)",
@@ -50,21 +57,46 @@ const Graphs = () => {
       ],
     },
   };
-  const handleChange = (e) => {
-    console.log(surveyData);
+  const handleChange = async (e) => {
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+    const ques = e.target.value.split(".")[0];
+    const ans = e.target.value.split(".")[1];
+    const answers = ans.split(",");
+
+    await axios
+      .post("/api/survey/getAnswer", { question: ques }, config)
+      .then((response) => {
+        setData(response.data.surveys.data);
+      })
+      .then(() => {
+        setLabel(ques);
+        setLabels(answers);
+      });
+    setDatas(e.target.value);
   };
 
   return (
-    <div style={{ marginTop: "80px" }}>
-      <input type="button" value="Test" onClick={handleChange} />
+    <div style={{ marginTop: "80px", height: "91vh" }}>
       <div className="header"></div>
-      {selected}
       <select
         onChange={handleChange}
         style={{ marginLeft: "45%", padding: "20px" }}
       >
+        <option disabled selected value>
+          {" "}
+          -- select an option --{" "}
+        </option>
+
         {surveyData.map((surveys) => {
-          return <option value={surveys.question}>{surveys.question}</option>;
+          return (
+            <option id="test" value={surveys.question + "." + surveys.answer}>
+              {surveys.question}
+            </option>
+          );
         })}
       </select>
       <Bar data={Niveau} options={options} />

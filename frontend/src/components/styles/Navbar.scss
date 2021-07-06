@@ -1,7 +1,7 @@
 
 nav
 {
-    position: fixed;
+    position: sticky;
     top: 3%;
     right: 0;
     left: 0;
@@ -10,7 +10,6 @@ nav
     margin: 0 auto;
     transform: translateY(-50%);
 }
-
 nav a
 {
     position: relative;

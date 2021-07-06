@@ -1,5 +1,6 @@
-.div__survey {
+.container__survey {
   max-width: 800px;
+  height: 56vh;
   margin: 200px auto;
   position: relative;
   display: -webkit-box;
@@ -10,13 +11,4 @@
       -ms-flex-pack: center;
           justify-content: center;
 }
-
-.inputs {
-  margin-bottom: 20px;
-}
-
-.question__title {
-  margin-bottom: 50px;
-  font-size: 35px;
-}
-/*# sourceMappingURL=SurveyPage.css.map */
+/*# sourceMappingURL=Survey.css.map */

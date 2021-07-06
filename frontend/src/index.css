@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap');
+
 body {
   margin: 0;
-  background-image: linear-gradient(to top, #b3ffab 0%, #12fff7 100%);
+  background-color: #5cdb95;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Otomanopee One', sans-serif;
+  color:#edf5e1 !important
+
 }
 
