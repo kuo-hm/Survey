@@ -26,13 +26,13 @@ const NavBar = () => {
   window.addEventListener("scroll", scrolls);
   return (
     <nav className="navMenu" style={scrolled ? { display: "none" } : {}}>
-      <Link to="/">MainPage</Link>
-      <Link to="/survey">Survey</Link>
+      <Link to="/">Page d'accueil</Link>
+      <Link to="/survey">Sondage</Link>
       {localStorage.getItem("type") === "admin" && (
-        <Link to="/graph">Graph</Link>
+        <Link to="/graph">Chart</Link>
       )}
       {localStorage.getItem("type") === "admin" && (
-        <Link to="/add">AddSurvey</Link>
+        <Link to="/add">Nouvelle Sondage</Link>
       )}
 
       {islogged ? (
@@ -45,10 +45,10 @@ const NavBar = () => {
             dispatch(isLogged(false));
           }}
         >
-          Logout
+          Se déconnecter
         </Link>
       ) : (
-        <Link to="/sign">Login</Link>
+        <Link to="/sign">Connexion</Link>
       )}
     </nav>
   );

@@ -7,6 +7,9 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Card,
+  Typography,
+  CardContent,
 } from "@material-ui/core";
 import { postAnswer } from "../../Redux/features/survey/answerSlice";
 import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
@@ -58,6 +61,20 @@ const useStyles = makeStyles({
       backgroundColor: "#106ba3",
     },
   },
+  root2: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
 });
 
 // Inspired by blueprintjs
@@ -76,6 +93,8 @@ function StyledRadio(props) {
   );
 }
 const Surey = () => {
+  const classes = useStyles();
+
   const dispatch = useDispatch();
   const answerData = useSelector((state) => state.getAnswer.answers.surveys);
 
@@ -99,7 +118,7 @@ const Surey = () => {
   };
   const handleAnswer = async (idx) => {
     var intAnswer = [0, 0, 0, 0];
-    if (answerData.data !== null) {
+    if (answerData) {
       var answer = Object.values(answerData.data);
       answer[idx] += 1;
       const Answers = { question: surveyData[count].question, data: answer };
@@ -118,10 +137,7 @@ const Surey = () => {
   const handleNext = async () => {
     setAnswer(surveyData[count].question);
     await dispatch(getAnswer(surveyData[count].question));
-    // console.log(answerData.data);
-    // console.log(surveyData[count].question);
-    console.log(surveyData.length);
-    console.log(count + 1);
+
     if (surveyData.length === count + 1) {
       setDone(true);
       for (let i = 0; i < 4; i++) {
@@ -141,7 +157,7 @@ const Surey = () => {
 
   return (
     <div className="div__survey">
-      {surveyData.length && !done && (
+      {surveyData.length && !done ? (
         <FormControl component="fieldset">
           <p className="question__title">{surveyData[count].question}</p>
 
@@ -175,17 +191,31 @@ const Surey = () => {
               control={<StyledRadio />}
               label={surveyData[count].answer[3]}
             />
-            {done ? (
-              <Button variant="contained" onClick={handleSubmit}>
-                Submit
-              </Button>
-            ) : (
-              <Button variant="contained" size="medium" onClick={handleNext}>
-                Next
-              </Button>
-            )}
           </RadioGroup>
+          {!done && (
+            <Button variant="contained" size="medium" onClick={handleNext}>
+              Suivante
+            </Button>
+          )}
         </FormControl>
+      ) : (
+        <Card className={classes.root2} variant="outlined">
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              Le sondage a été soumise
+            </Typography>
+            <Typography variant="h5" component="h2">
+              Merci d'avoir participé
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              adjective
+            </Typography>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

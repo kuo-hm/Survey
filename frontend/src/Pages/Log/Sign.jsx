@@ -86,7 +86,7 @@ const Sign = ({ history }) => {
               setError("");
             }}
           >
-            <span>or</span>Sign up
+            <span>ou</span>Inscrivez-vous
           </h2>
           <div className="form-holder">
             <input
@@ -108,7 +108,7 @@ const Sign = ({ history }) => {
             <input
               type="password"
               className="input"
-              placeholder="Password*"
+              placeholder="Mot de passe*"
               required
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -116,7 +116,7 @@ const Sign = ({ history }) => {
             <input
               type="password"
               className="input"
-              placeholder="RePassword*"
+              placeholder="Confirmer Mot de passe*"
               required
               onChange={(e) => setRePassword(e.target.value)}
               value={repassword}
@@ -148,7 +148,7 @@ const Sign = ({ history }) => {
           </div>
           <p style={{ color: "#DC143C" }}>{error}</p>
           <button className="submit-btn" onClick={registerHandler}>
-            Sign up
+            S'inscrire
           </button>
         </div>
         <div className={slide === "login" ? "login" : "login slide-up"}>
@@ -161,7 +161,7 @@ const Sign = ({ history }) => {
                 setError("");
               }}
             >
-              <span>or</span>Log in
+              <span>ou</span> Connectez-vous
             </h2>{" "}
             <div className="form-holder">
               <input
@@ -178,12 +178,12 @@ const Sign = ({ history }) => {
                 value={password}
                 required
                 className="input"
-                placeholder="Password"
+                placeholder="Mot de passe"
               />
             </div>
             <p style={{ color: "red" }}>{error}</p>
             <button className="submit-btn" onClick={loginHandler}>
-              Log in
+              Connexion
             </button>
           </div>
         </div>

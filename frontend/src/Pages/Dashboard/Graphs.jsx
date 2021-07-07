@@ -84,7 +84,7 @@ const Graphs = () => {
       >
         <option disabled selected value>
           {" "}
-          -- select an option --{" "}
+          -- Choisir Une Option --{" "}
         </option>
 
         {surveyData.map((surveys) => {
