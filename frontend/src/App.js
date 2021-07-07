@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
 import Sign from "./Pages/Log/Sign.jsx";
 import PrivateRoute from "./routing/PrivateRoute";
+import AdminRoute from "./routing/AdminRoute";
 import Graphs from "./Pages/Dashboard/Graphs.jsx";
 import SurveyPost from "./Pages/Surveys/SurveyPost.jsx";
 function App() {
@@ -11,8 +12,8 @@ function App() {
     <div>
       <NavBar />
       <Route exact path="/" component={Home} />
-      <PrivateRoute exact path="/graph" component={Graphs} />
-      <PrivateRoute exact path="/add" component={SurveyPost} />
+      <AdminRoute exact path="/graph" component={Graphs} />
+      <AdminRoute exact path="/add" component={SurveyPost} />
       <PrivateRoute exact path="/survey" component={Surey} />
       <Route exact path="/sign" component={Sign} />
     </div>

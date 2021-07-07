@@ -2,12 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
-import { getAnswer } from "../../Redux/features/survey/getAnswersSlice";
 import { getSurvey } from "../../Redux/features/survey/surveySlice";
 //TODO Fetch and count answers then show it in graphs
 const Graphs = () => {
-  const [selected, setselected] = useState("n");
-  const [datas, setDatas] = useState();
   const dispatch = useDispatch();
   const [data, setData] = useState([0, 0, 0, 0]);
   const [labels, setLabels] = useState([
@@ -76,7 +73,6 @@ const Graphs = () => {
         setLabel(ques);
         setLabels(answers);
       });
-    setDatas(e.target.value);
   };
 
   return (

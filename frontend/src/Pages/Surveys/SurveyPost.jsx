@@ -1,74 +1,29 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getSurvey } from "../../Redux/features/survey/surveySlice";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { postSurveys } from "../../Redux/features/survey/surveysSlice";
 import { TextField, Button } from "@material-ui/core";
 import "./Survey.css";
-const SurveyPost = () => {
+const SurveyPost = ({ history }) => {
   const [question, setQuestion] = useState("");
   const [answer1, setAnswer1] = useState("");
   const [answer2, setAnswer2] = useState("");
   const [answer3, setAnswer3] = useState("");
   const [answer4, setAnswer4] = useState("");
-  const [answer, setAnswer] = useState();
-  const [counts, setcounts] = useState();
-  const dispatch = useDispatch();
 
-  const islogged = useSelector((state) => state.survey.surveys);
-  useEffect(() => {
-    dispatch(getSurvey());
-    const config = {
-      header: {
-        "Content-Type": "application/json",
-      },
-    };
-    axios
-      .post(
-        "http://localhost:5000/api/survey/getAnswer",
-        {
-          question: "First question",
-        },
-        config
-      )
-      .then(function (response) {
-        console.log(response.data.surveys);
-        setAnswer(response.data.surveys);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [dispatch]);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const answer = [answer1, answer2, answer3, answer4];
     const survey = { question, answer };
     await dispatch(postSurveys(survey));
+    setAnswer1("");
+    setAnswer2("");
+    setAnswer3("");
+    setAnswer4("");
+    history.push("/survey");
   };
-  const handleFetch = async (e) => {
-    e.preventDefault();
-    console.log(answer);
-    const count = {};
-    const result = [];
 
-    answer[0].answer.forEach((item) => {
-      if (count[item]) {
-        count[item] += 1;
-        return;
-      }
-      count[item] = 1;
-    });
-
-    for (let prop in count) {
-      if (count[prop] >= 2) {
-        result.push(prop);
-      }
-    }
-    setcounts(count);
-    console.log(count);
-    return result;
-  };
   return (
     <div className="container__survey">
       <form style={{}}>
